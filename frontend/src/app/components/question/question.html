@@ -1,1 +1,7 @@
-<h3>question component</h3>
+<h3>{{ question().question }}</h3>
+
+@for (answer of question().answers; track $index) {
+    <button type="button" (click)="selectAnswer(answer)">
+        {{answer}}
+    </button>
+}

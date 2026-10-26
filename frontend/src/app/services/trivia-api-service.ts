@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { QuizApiResponse, QuizSettings } from '../models/models';
+import { CategoriesApiResponse, QuizApiResponse, QuizSettings } from '../models/models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TriviaApiService {
-  private apiUrl = "https://opentdb.com"
+  private apiUrl = "https://opentdb.com";
 
   constructor(private http: HttpClient){}
 
   getCategories() {
-    return this.http.get(`${this.apiUrl}/api_category.php`);
+    return this.http.get<CategoriesApiResponse>(`${this.apiUrl}/api_category.php`);
   }
 
   getQuestions(settings: QuizSettings){

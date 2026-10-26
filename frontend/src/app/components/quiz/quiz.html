@@ -1,5 +1,10 @@
-<h1>quiz component</h1>
+<p>Number of questions {{questions().length}}</p>
 
-<app-question>
-    <h3>question component</h3>
-</app-question>
+@if (questions().length > 0){
+    <app-question 
+        [question]="questions()[0]"
+        (answerSelected)="onAnswerSelected($event)"    
+    />
+} @else {
+    <p>No questions available</p>
+}

@@ -22,13 +22,13 @@ export function shuffleAnswers(answers: string[]): string[] {
 export function mapQuestion(raw: QuizApiQuestion): QuizQuestion {
     const correctAnswer = decodeHTML(raw.correct_answer);
 
-    const incorrect_answers = raw.incorrect_answers.map(
+    const incorrectAnswers = raw.incorrect_answers.map(
         answer => decodeHTML(answer)
     );
 
     const answers = shuffleAnswers([
         correctAnswer,
-        ...incorrect_answers
+        ...incorrectAnswers
     ]);
 
     return {

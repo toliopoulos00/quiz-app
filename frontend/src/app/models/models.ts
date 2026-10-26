@@ -31,3 +31,12 @@ export interface AnswerRecord {
     selectedAnswer: string;
     isCorrect: boolean;
 }
+
+export interface TriviaCategory {
+    id: number;
+    name: string;
+}
+
+export interface CategoriesApiResponse{
+    trivia_categories: TriviaCategory[];
+}
