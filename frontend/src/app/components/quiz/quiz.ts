@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { Question } from '../question/question';
 import { TriviaApiService } from '../../services/trivia-api-service';
-import { QuizSettings, QuizQuestion } from '../../models/models';
+import { QuizSettings, QuizQuestion, AnswerRecord } from '../../models/models';
 import { mapQuestion } from '../../utils/question-mapper';
 
 @Component({
@@ -13,6 +13,9 @@ import { mapQuestion } from '../../utils/question-mapper';
 export class Quiz implements OnInit {
   private triviaApiService = inject(TriviaApiService);
   questions = signal<QuizQuestion[]>([]);
+  answerRecords = signal<AnswerRecord[]>([]);
+  currentQuestionIndex = signal<number>(0);
+  selectedAnswer = signal<string | null>(null);
 
   ngOnInit(){
 
@@ -49,6 +52,35 @@ export class Quiz implements OnInit {
   }
 
   onAnswerSelected(answer: string) {
-    console.log('Selected answer:', answer);
+    if (this.selectedAnswer() !== null) {
+      return;
+    }
+
+    const currentQuestion = this.questions()[this.currentQuestionIndex()];
+
+    if (!currentQuestion) {
+      return;
+    }
+
+    const isCorrect = answer === currentQuestion.correctAnswer;
+
+    const record: AnswerRecord = {
+      question: currentQuestion,
+      selectedAnswer: answer,
+      isCorrect: isCorrect
+    };
+
+    this.answerRecords.update(records => [...records, record]);
+
+    this.selectedAnswer.set(answer);
+  }
+
+  nextQuestion() {
+    if (this.selectedAnswer() === null) {
+      return;
+    }
+
+    this.currentQuestionIndex.update(index => index + 1);
+    this.selectedAnswer.set(null);
   }
 }

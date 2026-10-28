@@ -1,7 +1,13 @@
 <h3>{{ question().question }}</h3>
 
 @for (answer of question().answers; track $index) {
-    <button type="button" (click)="selectAnswer(answer)">
-        {{answer}}
-    </button>
+  <button
+    type="button"
+    [disabled]="selectedAnswer() !== null"
+    [class.correct]="selectedAnswer() !== null && answer === question().correctAnswer"
+    [class.incorrect]="selectedAnswer() === answer && answer !== question().correctAnswer"
+    (click)="answerSelected.emit(answer)"
+  >
+    {{ answer }}
+  </button>
 }

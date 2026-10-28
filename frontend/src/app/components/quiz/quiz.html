@@ -1,10 +1,33 @@
-<p>Number of questions {{questions().length}}</p>
+@if (questions().length === 0) {
+  <p>Loading questions...</p>
+} @else if (currentQuestionIndex() < questions().length) {
 
-@if (questions().length > 0){
-    <app-question 
-        [question]="questions()[0]"
-        (answerSelected)="onAnswerSelected($event)"    
-    />
+  <p>
+    Question {{ currentQuestionIndex() + 1 }}
+    of {{ questions().length }}
+  </p>
+
+  <app-question
+    [question]="questions()[currentQuestionIndex()]"
+    [selectedAnswer]="selectedAnswer()"
+    (answerSelected)="onAnswerSelected($event)"
+  />
+
+  @if (selectedAnswer() !== null) {
+    @if (selectedAnswer() === questions()[currentQuestionIndex()].correctAnswer) {
+      <p class="correct">Correct answer!</p>
+    } @else {
+      <p class="incorrect">
+        Incorrect! The correct answer is:
+        {{ questions()[currentQuestionIndex()].correctAnswer }}
+      </p>
+    }
+
+    <button type="button" (click)="nextQuestion()">
+      Next Question
+    </button>
+  }
+
 } @else {
-    <p>No questions available</p>
+  <p>Quiz completed!</p>
 }

@@ -10,9 +10,7 @@ import { QuizQuestion } from '../../models/models';
 export class Question {
   question = input.required<QuizQuestion>();
 
-  answerSelected = output<string>();
+  selectedAnswer = input<string | null>(null);
 
-  selectAnswer(answer: string) {
-    this.answerSelected.emit(answer);
-  }
+  answerSelected = output<string>();
 }
